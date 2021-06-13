@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package Protos;
+
+option go_package = "/home/diwanshu/go projects/grpc_donar_patient/Protos";
+
+message ShowUser {
+    string Name = 1;
+    string Id = 2;
+    string PhoneNo = 3;
+    string EmailId = 4;
+    string Address = 5;
+}
+
+message Request {
+    string YourId = 1;
+    string UserId = 2;
+    string SecretCode = 3;
+}
+
+message Record {
+    string Id = 1;
+	string SecretCode = 2;
+	string Name = 3;
+	string Address = 4;
+	string PhoneNo = 5;
+	string EmailId = 6;
+	string UserType = 7;
+	string DiseaseDescription = 8;
+	map<string, int32> RequestedUsers = 9;
+	map<string, int32> PendingRequests = 10;
+	map<string, ShowUser> ConnectedUsers = 11;
+}
+
+message Success {
+    string Name = 1;
+}
+
+message RepShow {
+    repeated ShowUser User = 1;
+}
+
+service DonarPatientService {
+    rpc CreateUser(Record) returns(Record) {};
+    rpc LoginUser(Record) returns(Record) {};
+    rpc DeleteUser(Record) returns(Success) {};
+    rpc GetUser(Request) returns(ShowUser) {};
+    rpc GetDonars(Record) returns(RepShow) {};
+    rpc GetPatients(Record) returns(RepShow) {};
+    rpc SendRequest(Request) returns(Success) {};
+    rpc CancelRequest(Request) returns(Success) {};
+    rpc AcceptRequest(Request) returns(Success) {};
+    rpc CancelConnection(Request) returns(Success) {};
+}
